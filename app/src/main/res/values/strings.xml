@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">JokesReader</string>
+
+    <string name="title_home">首页</string>
+    <string name="title_explore">探索</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Toolbar titles -->
+    <string name="toolbar_title_home">Home</string>
+    <string name="toolbar_title_explore">Explore</string>
+    <string name="other_activity">Other Activity</string>
+
+    <!-- Navigation Drawer -->
+    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
+    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
+    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
+    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
+    <string name="tools_text_account_information_username">Sir_Chen</string>
+    <string name="tools_text_account_information_email">sir.chen93@gmail.com</string>
+
+    <!-- Typeface names -->
+    <string name="typeface_roboto_regular">Roboto-Regular</string>
+    <string name="typeface_roboto_medium">Roboto-Medium</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

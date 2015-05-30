@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_drawer_item_row"
+    style="@style/NavDrawerRowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/nav_drawer_vertical_spacing_listing"
+    android:paddingTop="@dimen/nav_drawer_vertical_spacing_listing"
+    tools:context=".fragment.NavigationDrawerFragment">
+
+    <com.chen.jokesreader.ui.customviews.TintOnStateImageView
+        android:id="@+id/navigation_drawer_items_list_icon"
+        style="@style/NavDrawerRowItemIcon"
+        tools:ignore="ContentDescription"
+        tools:tint="@color/nav_drawer_item_icon_selected" />
+
+    <TextView
+        android:id="@+id/navigation_drawer_items_title"
+        style="@style/NavDrawerRowItemText"
+        tools:fontFamily="sans-serif-medium"
+        tools:textColor="@color/nav_drawer_item_text_selected" />
+
+</FrameLayout>
