@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 47ebd7145e1ec4818eceabff1cf14d86a2edd9c2
 #built application files
 *.apk
 *.ap_
@@ -31,6 +34,7 @@ Thumbs.db
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
 build/
+<<<<<<< HEAD
 =======
 .gradle
 /local.properties
@@ -40,3 +44,5 @@ build/
 /build
 /captures
 >>>>>>> complete Navigation drawer layout.
+=======
+>>>>>>> 47ebd7145e1ec4818eceabff1cf14d86a2edd9c2
