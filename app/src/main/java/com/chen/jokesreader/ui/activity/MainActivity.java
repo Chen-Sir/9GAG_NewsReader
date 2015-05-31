@@ -1,6 +1,7 @@
 package com.chen.jokesreader.ui.activity;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -63,6 +64,8 @@ public class MainActivity extends ActionBarActivity implements HostingActivityIn
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.main_drawer_layout), mToolbar);
+
+        addFragment(HomeFragment.newInstance(),true);
 
     }
 
@@ -236,5 +239,10 @@ public class MainActivity extends ActionBarActivity implements HostingActivityIn
 
         // Commit the transaction.
         ft.commit();
+    }
+
+    @Override
+    public void onHomeFragmentInteraction() {
+        //TODO
     }
 }

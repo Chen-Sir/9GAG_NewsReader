@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/feed_item_row"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    card_view:cardCornerRadius="4dp" >
+
+    <RelativeLayout
+        android:id="@+id/feed_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/feed_item_img"
+            style="@style/FeedItemRowImg"
+            android:background="@drawable/tree" />
+
+        <TextView
+            android:id="@+id/feed_item_caption_txt"
+            style="@style/FeedItemRowCaptionText"
+            android:text="The M-1 Garand was the BEST rifle of WW2, don't think so? Well this veteran does!" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

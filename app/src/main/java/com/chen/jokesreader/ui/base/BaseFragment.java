@@ -40,4 +40,12 @@ public abstract class BaseFragment extends Fragment {
         }
 
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mHostingActivityInterface.setSelectedFragment(this);
+    }
 }

@@ -30,4 +30,11 @@
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="divider_height">1dp</dimen>
 
+    <dimen name="caption_text_size">16sp</dimen>
+    <dimen name="primary_text_size">24sp</dimen>
+
+    <dimen name="feed_caption_margin_right">108dp</dimen>
+    <dimen name="feed_img_height_size">68dp</dimen>
+    <dimen name="feed_img_width_size">80dp</dimen>
+
 </resources>
