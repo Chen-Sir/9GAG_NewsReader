@@ -1,4 +1,4 @@
-package com.chen.jokesreader.managers;
+package com.chen.jokesreader.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;

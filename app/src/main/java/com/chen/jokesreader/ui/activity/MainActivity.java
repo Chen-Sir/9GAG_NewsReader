@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.chen.jokesreader.R;
+import com.chen.jokesreader.ui.base.BaseActivity;
 import com.chen.jokesreader.ui.base.BaseFragment;
 import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
 import com.chen.jokesreader.ui.base.HostingActivityInterface;
@@ -28,7 +29,7 @@ import com.chen.jokesreader.ui.fragment.NavigationDrawerFragment;
 /**
  * Main class hosting the navigation drawer
  */
-public class MainActivity extends ActionBarActivity implements HostingActivityInterface {
+public class MainActivity extends BaseActivity implements HostingActivityInterface {
 
     private BaseFragment mSelectedFragment;
     private DrawerItemBaseFragment mSelectedDrawerItemFragment;
@@ -45,20 +46,22 @@ public class MainActivity extends ActionBarActivity implements HostingActivityIn
 
     private boolean isWarnedToClose = false;
 
-    private Toolbar mToolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -244,5 +247,6 @@ public class MainActivity extends ActionBarActivity implements HostingActivityIn
     @Override
     public void onHomeFragmentInteraction() {
         //TODO
+
     }
 }

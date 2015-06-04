@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.managers.ManagerTypeface;
+import com.chen.jokesreader.utils.ManagerTypeface;
 import com.chen.jokesreader.ui.adapter.NavDrawerListAdapter;
 import com.chen.jokesreader.ui.base.BaseFragment;
 import com.chen.jokesreader.utils.UtilsDevice;
@@ -214,9 +214,6 @@ public class NavigationDrawerFragment extends BaseFragment {
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
         //Navigation Drawer width.
         int possibleMinDrawerWidth = UtilsDevice.getScreenWidth(getActivity()) - UtilsMiscellaneous.getThemeAttributeDimensionSize(getActivity(), android.R.attr.actionBarSize);

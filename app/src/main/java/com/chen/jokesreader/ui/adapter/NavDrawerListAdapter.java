@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.chen.jokesreader.App;
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.managers.ManagerTypeface;
+import com.chen.jokesreader.utils.ManagerTypeface;
 import com.chen.jokesreader.ui.customviews.TintOnStateImageView;
 
 /**
@@ -30,9 +30,9 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        int mHolderid;
+        int mHolderId;
 
-        public TintOnStateImageView mItemicon_img;
+        public TintOnStateImageView mItemIcon_img;
         public TextView mItemTitle_txt;
 
         public View mDivider_v;
@@ -46,13 +46,13 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
                 // Creating TextView object with the id of textView from nav_item_row.xml.
                 mItemTitle_txt = (TextView) itemView.findViewById(R.id.navigation_drawer_items_title);
                 // Creating ImageView object with the id of ImageView from nav_item_row.xml.
-                mItemicon_img = (TintOnStateImageView) itemView.findViewById(R.id.navigation_drawer_items_list_icon);
+                mItemIcon_img = (TintOnStateImageView) itemView.findViewById(R.id.navigation_drawer_items_list_icon);
                 // setting holder id as 1 as the object being populated are of type item row.
-                mHolderid = 1;
+                mHolderId = 1;
             } else {
                 mDivider_v = itemView.findViewById(R.id.nav_drawer_divider);
                 // Setting holder id = 0 as the object being populated are of type divider view
-                mHolderid = 0;
+                mHolderId = 0;
             }
         }
     }
@@ -86,20 +86,20 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
         if (position == 0)
             holder.itemView.setSelected(true);
 
-        if (holder.mHolderid == 1) {
+        if (holder.mHolderId == 1) {
             if (position < 2) {
                 holder.mItemTitle_txt.setText(mItemTitles[position]);
-                holder.mItemicon_img.setImageResource(mItemIcons[position]);
-                holder.itemView.setTag(App.getmAppContext().getResources().getString(R.string.tag_nav_drawer_main_entry));
+                holder.mItemIcon_img.setImageResource(mItemIcons[position]);
+                holder.itemView.setTag(App.getAppContext().getResources().getString(R.string.tag_nav_drawer_main_entry));
             } else if (position > 2) {
                 holder.mItemTitle_txt.setText(mItemTitles[position - 1]);
-                holder.mItemicon_img.setImageResource(mItemIcons[position - 1]);
-                holder.itemView.setTag(App.getmAppContext().getResources().getString(R.string.tag_nav_drawer_special_entry));
+                holder.mItemIcon_img.setImageResource(mItemIcons[position - 1]);
+                holder.itemView.setTag(App.getAppContext().getResources().getString(R.string.tag_nav_drawer_special_entry));
             }
 
-            holder.mItemTitle_txt.setTypeface(ManagerTypeface.getTypeface(App.getmAppContext(), R.string.typeface_roboto_medium));
+            holder.mItemTitle_txt.setTypeface(ManagerTypeface.getTypeface(App.getAppContext(), R.string.typeface_roboto_medium));
 
-        } else if (holder.mHolderid == 0) {
+        } else if (holder.mHolderId == 0) {
             //do none but only display divider.
         }
 

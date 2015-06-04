@@ -1,29 +1,44 @@
 package com.chen.jokesreader.ui.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.chen.jokesreader.App;
 import com.chen.jokesreader.R;
+import com.chen.jokesreader.api.GagApi;
+import com.chen.jokesreader.dao.FeedsDataHelper;
+import com.chen.jokesreader.data.GsonRequest;
+import com.chen.jokesreader.data.RequestManager;
+import com.chen.jokesreader.model.Category;
+import com.chen.jokesreader.model.Feed;
 import com.chen.jokesreader.ui.adapter.FeedsAdapter;
-import com.chen.jokesreader.ui.adapter.NavDrawerListAdapter;
 import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
+import com.chen.jokesreader.utils.TaskUtils;
+import com.chen.jokesreader.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * The Fragment that shows the news.
  */
-public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public final static String TAG = "Home Fragment";
 
@@ -32,6 +47,12 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     //UI
     private RecyclerView mFeedsRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private FeedsDataHelper mDataHelper;
+    private FeedsAdapter mAdapter;
+    private String mPage = "0";
+    private Category mCategory;
+
 
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance() {
@@ -60,6 +81,9 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        //Set "hot" as the default category and would update logic later.
+        mCategory = Category.valueOf(Category.hot.name());
     }
 
     @Override
@@ -68,19 +92,24 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_content_home, container, false);
 
+        mDataHelper = new FeedsDataHelper(App.getAppContext(),mCategory);
+
         //Set up the components and set listener.
         mFeedsRecyclerView = (RecyclerView) view.findViewById(R.id.feeds_list_rv);
         mFeedsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFeedsRecyclerView.setAdapter(new FeedsAdapter());
+        mAdapter = new FeedsAdapter(getActivity());
+        mFeedsRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.blue, R.color.purple, R.color.red, R.color.black);
+        setListener();
 
-        setmListener();
+        getLoaderManager().initLoader(0, null, this);
+        loadFirst();
 
         return view;
     }
 
-    private void setmListener(){
+    private void setListener() {
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -146,15 +175,96 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     }
 
     @Override
-    public void onRefresh() {
-        //TODO
-        refreshData();
+    public void onDestroy() {
+        super.onDestroy();
+        RequestManager.cancelAll(this);
     }
 
-    private void refreshData() {
-        //TODO:network operations
-        mSwipeRefreshLayout.setRefreshing(true);
+    @Override
+    public void onRefresh() {
+        loadFirst();
     }
+
+    private void refreshData(String next) {
+        //TODO:network operations
+
+        if (!mSwipeRefreshLayout.isRefreshing() && ("0".equals(next))) {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+        executeRequest(new GsonRequest(String.format(GagApi.LIST, mCategory.name(), next), Feed.FeedRequestData.class, responseListener(), errorListener()));
+    }
+
+    private void executeRequest(GsonRequest gsonRequest) {
+        RequestManager.addRequest(gsonRequest, this);
+    }
+
+    private void loadFirst() {
+        mPage = "0";
+        refreshData(mPage);
+    }
+
+
+    private Response.Listener<Feed.FeedRequestData> responseListener() {
+        final boolean isRefreshFromTop = ("0".equals(mPage));
+        return new Response.Listener<Feed.FeedRequestData>() {
+            @Override
+            public void onResponse(final Feed.FeedRequestData response) {
+                TaskUtils.executeAsyncTask(new AsyncTask<Object, Object, Object>() {
+                    @Override
+                    protected Object doInBackground(Object... params) {
+                        if (isRefreshFromTop) {
+                            Log.i(TAG, "Delete data");
+                            mDataHelper.deleteAll();
+                        }
+                        mPage = response.getPage();
+                        ArrayList<Feed> feeds = response.data;
+                        mDataHelper.bulkInsert(feeds);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object o) {
+                        super.onPostExecute(o);
+                        if (isRefreshFromTop) {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        } else {
+                            //update later
+                        }
+                    }
+                });
+            }
+        };
+    }
+
+    protected Response.ErrorListener errorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtils.showShort(R.string.load_failed);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        };
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return mDataHelper.getCursorLoader();
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mAdapter.changeCursor(data);
+        if (data != null && data.getCount() == 0) {
+            loadFirst();
+        }
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.changeCursor(null);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
