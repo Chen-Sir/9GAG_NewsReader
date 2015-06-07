@@ -1,17 +1,15 @@
 package com.chen.jokesreader.ui.fragment;
 
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -33,7 +31,7 @@ import com.chen.jokesreader.utils.UtilsMiscellaneous;
  */
 public class NavigationDrawerFragment extends BaseFragment {
 
-    public final static String TAG = "Navigation Drawer Fragment";
+    public final static String TAG = "NavDrawerFragment";
 
     private final static double sNAVIGATION_DRAWER_ACCOUNT_SECTION_ASPECT_RATIO = 9d / 16d;
 
@@ -43,17 +41,11 @@ public class NavigationDrawerFragment extends BaseFragment {
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     /**
-     * Per the design guidelines, you should show the drawer on launch until the user manually
-     * expands it. This shared preference tracks this.
-     */
-    private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
-    /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
-    private NavDrawerListAdapter mRecyclerviewAdapter;
+    private NavDrawerListAdapter mRecyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private DrawerLayout mDrawerLayout;
@@ -92,12 +84,6 @@ public class NavigationDrawerFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -154,8 +140,8 @@ public class NavigationDrawerFragment extends BaseFragment {
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
-        mRecyclerviewAdapter = new NavDrawerListAdapter(mNavDrawerItemTitleArray, mNavDrawerItemIconArray);
-        mRecyclerView.setAdapter(mRecyclerviewAdapter);
+        mRecyclerViewAdapter = new NavDrawerListAdapter(mNavDrawerItemTitleArray, mNavDrawerItemIconArray);
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         setRecyclerViewListener();
@@ -178,7 +164,6 @@ public class NavigationDrawerFragment extends BaseFragment {
                 if (!isAdded()) {
                     return;
                 }
-
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
@@ -188,30 +173,9 @@ public class NavigationDrawerFragment extends BaseFragment {
                 if (!isAdded()) {
                     return;
                 }
-
-                if (!mUserLearnedDrawer) {
-                    // The user manually opened the drawer; store this flag to prevent auto-showing
-                    // the navigation drawer automatically in the future.
-                    mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
-                }
-
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, 0);
-            }
         };
-
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
-        }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -257,6 +221,7 @@ public class NavigationDrawerFragment extends BaseFragment {
 
                 if (child != null && mGestureDetector.onTouchEvent(e) && child.getTag() != NavDrawerListAdapter.TYPE_DIVIDER) {
                     int position = rv.getChildPosition(child);
+                    Log.d(TAG,position+"");
                     onRowPressed((FrameLayout) child, rv);
                     selectItem(position);
                     return true;

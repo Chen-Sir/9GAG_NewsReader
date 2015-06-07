@@ -80,8 +80,8 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-        }
 
+        }
         //Set "hot" as the default category and would update logic later.
         mCategory = Category.valueOf(Category.hot.name());
     }
@@ -89,11 +89,9 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_content_home, container, false);
 
-        mDataHelper = new FeedsDataHelper(App.getAppContext(),mCategory);
-
+        mDataHelper = new FeedsDataHelper(App.getAppContext(), mCategory);
         //Set up the components and set listener.
         mFeedsRecyclerView = (RecyclerView) view.findViewById(R.id.feeds_list_rv);
         mFeedsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -104,8 +102,9 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
         setListener();
 
         getLoaderManager().initLoader(0, null, this);
-        loadFirst();
-
+        if (savedInstanceState == null){
+            loadFirst();
+        }
         return view;
     }
 
@@ -135,7 +134,7 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
 
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
                     int position = rv.getChildPosition(child);
-                    onButtonPressed();
+                    onButtonPressed(position,mAdapter);
                     return true;
                 }
                 return false;
@@ -149,10 +148,9 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void onButtonPressed(int position,FeedsAdapter adapter) {
         if (mListener != null) {
-            mListener.onHomeFragmentInteraction();
+            mListener.onHomeFragmentInteraction(position,adapter);
         }
     }
 
@@ -205,6 +203,7 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
 
 
     private Response.Listener<Feed.FeedRequestData> responseListener() {
+        //TODO:The logic of refreshing data should be update
         final boolean isRefreshFromTop = ("0".equals(mPage));
         return new Response.Listener<Feed.FeedRequestData>() {
             @Override
@@ -213,7 +212,6 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
                     @Override
                     protected Object doInBackground(Object... params) {
                         if (isRefreshFromTop) {
-                            Log.i(TAG, "Delete data");
                             mDataHelper.deleteAll();
                         }
                         mPage = response.getPage();
@@ -266,15 +264,12 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     }
 
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity
-     */
     public interface OnHomeFragmentInteractionListener {
-        //TODO:add the arguments
-        void onHomeFragmentInteraction();
+        /**
+         * RecyclerView onInterceptTouchEvent
+         * @param position where be pressed
+         */
+        void onHomeFragmentInteraction(int position,FeedsAdapter adapter);
     }
 
 }

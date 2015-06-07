@@ -1,24 +1,18 @@
 package com.chen.jokesreader.ui.activity;
 
-import android.app.Activity;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.chen.jokesreader.R;
+import com.chen.jokesreader.ui.adapter.FeedsAdapter;
 import com.chen.jokesreader.ui.base.BaseActivity;
 import com.chen.jokesreader.ui.base.BaseFragment;
 import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
@@ -44,6 +38,10 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
      */
     private CharSequence mTitle;
 
+
+    private Toolbar mToolbar;
+
+
     private boolean isWarnedToClose = false;
 
 
@@ -52,16 +50,10 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        mToolbar = getActionBarToolbar();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -108,10 +100,10 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.title_home);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.title_explore);
                 break;
             default:
@@ -245,8 +237,11 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
     }
 
     @Override
-    public void onHomeFragmentInteraction() {
-        //TODO
-
+    public void onHomeFragmentInteraction(int position,FeedsAdapter adapter) {
+        String imageUrl = adapter.getItem(position).images.large;
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this,FeedItemDetailActivity.class);
+        intent.putExtra(FeedItemDetailActivity.FEED_ITEM_IMAGE_URL,imageUrl);
+        startActivity(intent);
     }
 }
