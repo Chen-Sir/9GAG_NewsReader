@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.data.ImageCacheManager;
+import com.chen.jokesreader.utils.image.ImageCacheManager;
 import com.chen.jokesreader.model.Feed;
-import com.chen.jokesreader.utils.DensityUtils;
 
 /**
  * Created by ChenSir on 2015/5/31 0031.
@@ -43,8 +42,7 @@ public class FeedsAdapter extends BaseAbstractRecycleCursorAdapter<FeedsAdapter.
         }
 
         holder.mFeedCaption_txt.setText(mItem.caption);
-        holder.imageRequest = ImageCacheManager.loadImage(mItem.images.normal, ImageCacheManager.getImageListener(holder.mFeed_img, mContext.getResources().getDrawable(R.drawable.empty_image), mContext.getResources().getDrawable(R.drawable.empty_image)), 0, 0);
-
+        holder.imageRequest = ImageCacheManager.loadImage(mItem.images.normal, ImageLoader.getImageListener(holder.mFeed_img, R.drawable.empty_image, R.drawable.empty_image), 0, 0);
 
     }
 

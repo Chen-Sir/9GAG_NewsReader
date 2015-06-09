@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_common"
+        android:title="@string/pref_category_title_common">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_show_img"
+            android:summary="@string/pref_title_show_img_summary"
+            android:title="@string/pref_title_show_img" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_auto_load"
+            android:title="@string/pref_title_auto_load" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_other"
+        android:title="@string/pref_category_title_other">
+        <Preference
+            android:key="pref_key_developer"
+            android:summary="@string/pref_title_developer_summary"
+            android:title="@string/pref_title_developer">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://weibo.com/SirChen93/home" />
+        </Preference>
+
+        <Preference
+            android:key="pref_key_version"
+            android:summary="@string/pref_title_version_summary"
+            android:title="@string/pref_title_version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

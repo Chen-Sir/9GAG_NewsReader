@@ -1,4 +1,4 @@
-package com.chen.jokesreader.dao;
+package com.chen.jokesreader.provider;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
 import com.chen.jokesreader.ui.base.HostingActivityInterface;
 import com.chen.jokesreader.ui.fragment.HomeFragment;
 import com.chen.jokesreader.ui.fragment.NavigationDrawerFragment;
+import com.chen.jokesreader.utils.image.RequestManager;
 
 /**
  * Main class hosting the navigation drawer
@@ -60,7 +62,7 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.main_drawer_layout), mToolbar);
 
-        addFragment(HomeFragment.newInstance(),true);
+        addFragment(HomeFragment.newInstance(), true);
 
     }
 
@@ -72,13 +74,7 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
         if (!(mSelectedFragment instanceof DrawerItemBaseFragment)) {
             clearBackStack();
         }
-
         onSectionAttached(position);
-
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_activity_content_frame, HomeFragment.newInstance()).commit();
     }
 
 
@@ -99,13 +95,26 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
     }
 
     public void onSectionAttached(int number) {
+
         switch (number) {
+
             case 0:
                 mTitle = getString(R.string.title_home);
+                // update the main content by replacing fragments
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_activity_content_frame, HomeFragment.newInstance()).commit();
                 break;
             case 1:
                 mTitle = getString(R.string.title_explore);
                 break;
+
+            case 3:
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,PreferenceActivity.class);
+                startActivity(intent);
+                break;
+
             default:
                 break;
         }
@@ -118,14 +127,9 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
+        getMenuInflater().inflate(R.menu.main, menu);
+        restoreActionBar();
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -137,7 +141,7 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_main_share) {
             return true;
         }
 
@@ -237,11 +241,11 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
     }
 
     @Override
-    public void onHomeFragmentInteraction(int position,FeedsAdapter adapter) {
+    public void onHomeFragmentInteraction(int position, FeedsAdapter adapter) {
         String imageUrl = adapter.getItem(position).images.large;
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this,FeedItemDetailActivity.class);
-        intent.putExtra(FeedItemDetailActivity.FEED_ITEM_IMAGE_URL,imageUrl);
+        intent.setClass(MainActivity.this, FeedItemDetailActivity.class);
+        intent.putExtra(FeedItemDetailActivity.FEED_ITEM_IMAGE_URL, imageUrl);
         startActivity(intent);
     }
 }

@@ -1,20 +1,15 @@
 <resources>
     <string name="app_name">JokesReader</string>
 
+
     <string name="title_home">首页</string>
     <string name="title_explore">探索</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
 
-    <string name="action_settings">Settings</string>
-
-    <!-- Toolbar titles -->
-    <string name="toolbar_title_home">Home</string>
-    <string name="toolbar_title_explore">Explore</string>
-    <string name="other_activity">Other Activity</string>
+    <string name="action_share">把App分享给你的朋友</string>
 
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_opened">The navigation drawer is opened</string>
@@ -30,4 +25,17 @@
 
     <string name="load_failed">Load data failed</string>
 
+
+   <!--  Preference Fragment-->
+    <string name="pref">设置</string>
+    <string name="pref_category_title_common">常规</string>
+    <string name="pref_category_title_other">其它</string>
+
+    <string name="pref_title_show_img">无图模式</string>
+    <string name="pref_title_show_img_summary">2G/3G网络条件下不显示大图</string>
+    <string name="pref_title_auto_load">列表自动加载更多</string>
+    <string name="pref_title_developer">开发者</string>
+    <string name="pref_title_developer_summary">Better.Sir_cHEN</string>
+    <string name="pref_title_version">软件版本</string>
+    <string name="pref_title_version_summary">v 1.0</string>
 </resources>

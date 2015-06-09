@@ -22,9 +22,9 @@ import com.android.volley.VolleyError;
 import com.chen.jokesreader.App;
 import com.chen.jokesreader.R;
 import com.chen.jokesreader.api.GagApi;
-import com.chen.jokesreader.dao.FeedsDataHelper;
-import com.chen.jokesreader.data.GsonRequest;
-import com.chen.jokesreader.data.RequestManager;
+import com.chen.jokesreader.provider.FeedsDataHelper;
+import com.chen.jokesreader.utils.image.GsonRequest;
+import com.chen.jokesreader.utils.image.RequestManager;
 import com.chen.jokesreader.model.Category;
 import com.chen.jokesreader.model.Feed;
 import com.chen.jokesreader.ui.adapter.FeedsAdapter;
@@ -57,8 +57,6 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -79,18 +77,17 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
 
-        }
-        //Set "hot" as the default category and would update logic later.
-        mCategory = Category.valueOf(Category.hot.name());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_content_home, container, false);
+        Log.e(TAG,"onCreateView");
 
+        //Set "hot" as the default category and would update logic later.
+        mCategory = Category.valueOf(Category.hot.name());
         mDataHelper = new FeedsDataHelper(App.getAppContext(), mCategory);
         //Set up the components and set listener.
         mFeedsRecyclerView = (RecyclerView) view.findViewById(R.id.feeds_list_rv);
@@ -102,9 +99,8 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
         setListener();
 
         getLoaderManager().initLoader(0, null, this);
-        if (savedInstanceState == null){
-            loadFirst();
-        }
+        loadFirst();
+
         return view;
     }
 
@@ -133,8 +129,8 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
-                    int position = rv.getChildPosition(child);
-                    onButtonPressed(position,mAdapter);
+                    int position = rv.getChildAdapterPosition(child);
+                    onButtonPressed(position, mAdapter);
                     return true;
                 }
                 return false;
@@ -144,13 +140,18 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
 
             }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
+            }
         });
     }
 
 
-    public void onButtonPressed(int position,FeedsAdapter adapter) {
+    public void onButtonPressed(int position, FeedsAdapter adapter) {
         if (mListener != null) {
-            mListener.onHomeFragmentInteraction(position,adapter);
+            mListener.onHomeFragmentInteraction(position, adapter);
         }
     }
 
@@ -173,19 +174,11 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RequestManager.cancelAll(this);
-    }
-
-    @Override
     public void onRefresh() {
         loadFirst();
     }
 
     private void refreshData(String next) {
-        //TODO:network operations
-
         if (!mSwipeRefreshLayout.isRefreshing() && ("0".equals(next))) {
             mSwipeRefreshLayout.setRefreshing(true);
         }
@@ -198,6 +191,10 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
 
     private void loadFirst() {
         mPage = "0";
+        refreshData(mPage);
+    }
+
+    private void loadNext() {
         refreshData(mPage);
     }
 
@@ -215,6 +212,7 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
                             mDataHelper.deleteAll();
                         }
                         mPage = response.getPage();
+
                         ArrayList<Feed> feeds = response.data;
                         mDataHelper.bulkInsert(feeds);
                         return null;
@@ -267,9 +265,10 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     public interface OnHomeFragmentInteractionListener {
         /**
          * RecyclerView onInterceptTouchEvent
+         *
          * @param position where be pressed
          */
-        void onHomeFragmentInteraction(int position,FeedsAdapter adapter);
+        void onHomeFragmentInteraction(int position, FeedsAdapter adapter);
     }
 
 }

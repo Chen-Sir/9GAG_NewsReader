@@ -3,7 +3,6 @@ package com.chen.jokesreader.ui.base;
 import android.os.Bundle;
 
 
-
 public abstract class DrawerItemBaseFragment extends BaseFragment {
 	
 	protected DrawerActivityInterface drawerActivityInterface;
@@ -24,6 +23,11 @@ public abstract class DrawerItemBaseFragment extends BaseFragment {
 		super.onStart();
 		
 		drawerActivityInterface.setSelectedDrawerItem(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 
 }

@@ -14,20 +14,36 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <provider
-            android:name=".dao.DataProvider"
+            android:name=".provider.DataProvider"
             android:authorities="com.chen.9gag.provider"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
+
         <activity
             android:name=".ui.activity.MainActivity"
-            >
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.FeedItemDetailActivity"
+            android:label="@string/app_name"
+            >
+
+        </activity>
+
+        <activity
+            android:name=".ui.activity.PreferenceActivity"
+            android:label="@string/pref"
+            >
+
+        </activity>
+
     </application>
 
 </manifest>

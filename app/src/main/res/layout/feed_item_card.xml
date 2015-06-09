@@ -17,7 +17,6 @@
         <ImageView
             android:id="@+id/feed_item_img"
             style="@style/FeedItemRowImg"
-            android:background="#000"
             android:scaleType="centerCrop" />
 
         <TextView

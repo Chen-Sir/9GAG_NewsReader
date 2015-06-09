@@ -220,8 +220,7 @@ public class NavigationDrawerFragment extends BaseFragment {
                 View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && mGestureDetector.onTouchEvent(e) && child.getTag() != NavDrawerListAdapter.TYPE_DIVIDER) {
-                    int position = rv.getChildPosition(child);
-                    Log.d(TAG,position+"");
+                    int position = rv.getChildAdapterPosition(child);
                     onRowPressed((FrameLayout) child, rv);
                     selectItem(position);
                     return true;
@@ -231,6 +230,11 @@ public class NavigationDrawerFragment extends BaseFragment {
 
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
 
             }
         });

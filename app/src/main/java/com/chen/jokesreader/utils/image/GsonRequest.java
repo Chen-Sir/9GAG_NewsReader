@@ -1,4 +1,4 @@
-package com.chen.jokesreader.data;
+package com.chen.jokesreader.utils.image;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;

@@ -2,7 +2,7 @@ package com.chen.jokesreader.model;
 
 import android.database.Cursor;
 
-import com.chen.jokesreader.dao.FeedsDataHelper;
+import com.chen.jokesreader.provider.FeedsDataHelper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

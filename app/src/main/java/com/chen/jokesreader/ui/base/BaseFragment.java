@@ -3,6 +3,8 @@ package com.chen.jokesreader.ui.base;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.chen.jokesreader.utils.image.RequestManager;
+
 /**
  * Created by ChenSir on 2015/5/18 0018.
  */
@@ -47,5 +49,11 @@ public abstract class BaseFragment extends Fragment {
         super.onStart();
 
         mHostingActivityInterface.setSelectedFragment(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RequestManager.cancelAll(this);
     }
 }
