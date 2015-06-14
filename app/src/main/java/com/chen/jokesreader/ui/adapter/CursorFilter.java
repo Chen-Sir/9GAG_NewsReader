@@ -3,17 +3,6 @@ package com.chen.jokesreader.ui.adapter;
 import android.database.Cursor;
 import android.widget.Filter;
 
-/**
- * Author:    ZhuWenWu
- * Version    V1.0
- * Date:      2014/12/30  17:15.
- * Description: Êý¾Ý¿âCursorÉ¸Ñ¡
- * Modification  History:
- * Date         	Author        		Version        	Description
- * -----------------------------------------------------------------------------------
- * 2014/12/30        ZhuWenWu            1.0                    1.0
- * Why & What is modified:
- */
 public class CursorFilter extends Filter {
     CursorFilterClient mClient;
 

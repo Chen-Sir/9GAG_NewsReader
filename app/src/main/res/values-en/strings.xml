@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_about">About</string>
+    <string name="app_name">JokesReader</string>
+    <string name="action_share">Share this App to your friends</string>
+    <string name="load_failed">fail loading</string>
+    <string name="pref">Settings</string>
+    <string name="pref_category_title_common">Common</string>
+    <string name="pref_category_title_other">Other</string>
+    <string name="pref_title_auto_load">Auto loading more in the list</string>
+    <string name="pref_title_developer">Developer</string>
+    <string name="pref_title_developer_summary"></string>
+    <string name="pref_title_donate">Donate</string>
+    <string name="pref_title_show_img">No PIC Model</string>
+    <string name="pref_title_version">Soft Version</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_home">Home</string>
+    <string name="pref_title_show_img_summary">do not display a big image under the condition of 2g or 3g network</string>
+    <string name="load_more">点击加载更多</string>
+</resources>

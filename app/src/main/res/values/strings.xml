@@ -4,26 +4,27 @@
 
     <string name="title_home">首页</string>
     <string name="title_explore">探索</string>
+    <string name="title_about">关于</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
 
     <string name="action_share">把App分享给你的朋友</string>
 
     <!-- Navigation Drawer -->
-    <string name="navigation_drawer_opened">The navigation drawer is opened</string>
-    <string name="navigation_drawer_closed">The navigation drawer is closed</string>
-    <string name="tag_nav_drawer_main_entry">nav_drawer_main_entry</string>
-    <string name="tag_nav_drawer_special_entry">nav_drawer_special_entry</string>
-    <string name="tools_text_account_information_username">Sir_Chen</string>
-    <string name="tools_text_account_information_email">sir.chen93@gmail.com</string>
+    <string name="navigation_drawer_opened" translatable="false">The navigation drawer is opened</string>
+    <string name="navigation_drawer_closed" translatable="false">The navigation drawer is closed</string>
+    <string name="tag_nav_drawer_main_entry" translatable="false">nav_drawer_main_entry</string>
+    <string name="tag_nav_drawer_special_entry" translatable="false">nav_drawer_special_entry</string>
+    <string name="tools_text_account_information_username" translatable="false">Sir_Chen</string>
+    <string name="tools_text_account_information_email" translatable="false">sir.chen93@gmail.com</string>
 
     <!-- Typeface names -->
-    <string name="typeface_roboto_regular">Roboto-Regular</string>
-    <string name="typeface_roboto_medium">Roboto-Medium</string>
+    <string name="typeface_roboto_regular" translatable="false">Roboto-Regular</string>
+    <string name="typeface_roboto_medium" translatable="false">Roboto-Medium</string>
 
-    <string name="load_failed">Load data failed</string>
+    <string name="load_failed">加载失败</string>
 
 
    <!--  Preference Fragment-->
@@ -35,7 +36,10 @@
     <string name="pref_title_show_img_summary">2G/3G网络条件下不显示大图</string>
     <string name="pref_title_auto_load">列表自动加载更多</string>
     <string name="pref_title_developer">开发者</string>
-    <string name="pref_title_developer_summary">Better.Sir_cHEN</string>
+    <string name="pref_title_developer_summary" translatable="false">Better.Sir_cHEN</string>
     <string name="pref_title_version">软件版本</string>
-    <string name="pref_title_version_summary">v 1.0</string>
+    <string name="pref_title_version_summary" translatable="false">v 1.0</string>
+    <string name="pref_title_donate">请我喝杯咖啡吧</string>
+    <string name="load_more">点击加载更多</string>
+
 </resources>

@@ -18,6 +18,7 @@ import com.chen.jokesreader.ui.base.BaseActivity;
 import com.chen.jokesreader.ui.base.BaseFragment;
 import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
 import com.chen.jokesreader.ui.base.HostingActivityInterface;
+import com.chen.jokesreader.ui.fragment.ExploreFragment;
 import com.chen.jokesreader.ui.fragment.HomeFragment;
 import com.chen.jokesreader.ui.fragment.NavigationDrawerFragment;
 import com.chen.jokesreader.utils.image.RequestManager;
@@ -101,17 +102,16 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
             case 0:
                 mTitle = getString(R.string.title_home);
                 // update the main content by replacing fragments
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_activity_content_frame, HomeFragment.newInstance()).commit();
+                addFragment(HomeFragment.newInstance(), true);
                 break;
             case 1:
                 mTitle = getString(R.string.title_explore);
+                addFragment(ExploreFragment.newInstance(), true);
                 break;
 
             case 3:
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,PreferenceActivity.class);
+                intent.setClass(MainActivity.this, PreferenceActivity.class);
                 startActivity(intent);
                 break;
 
@@ -248,4 +248,5 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
         intent.putExtra(FeedItemDetailActivity.FEED_ITEM_IMAGE_URL, imageUrl);
         startActivity(intent);
     }
+
 }

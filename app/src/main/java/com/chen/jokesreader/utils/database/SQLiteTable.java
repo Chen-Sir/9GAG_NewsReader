@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by ChenSir on 15-6-3.
  */
 public class SQLiteTable {
+
     String mTableName;
 
     ArrayList<Column> mColumnsDefinitions = new ArrayList<>();

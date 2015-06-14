@@ -34,6 +34,15 @@
             android:key="pref_key_version"
             android:summary="@string/pref_title_version_summary"
             android:title="@string/pref_title_version" />
+
+        <Preference
+            android:key="pref_key_donate"
+            android:title="@string/pref_title_donate">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://m.alipay.com/personal/payment.htm?reason=请我喝杯咖啡吧T_T&amp;amount=6&amp;account=15198133187"/>
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

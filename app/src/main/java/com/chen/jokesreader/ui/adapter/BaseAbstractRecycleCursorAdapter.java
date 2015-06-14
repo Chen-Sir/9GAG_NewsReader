@@ -6,23 +6,25 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 
-/**
- * Author:    ZhuWenWu
- * Version    V1.0
- * Date:      2015/2/25  16:39.
- * Description:
- * Modification  History:
- * Date         	Author        		Version        	Description
- * -----------------------------------------------------------------------------------
- * 2015/2/25        ZhuWenWu            1.0                    1.0
- * Why & What is modified:
- */
+
 public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Filterable,
         CursorFilter.CursorFilterClient {
+
+    public static enum ITEM_TYPE {
+        ITEM_TYPE_HEADER,
+        ITEM_TYPE_CONTENT,
+        ITEM_TYPE_BOTTOM
+    }
+
+    protected int mHeaderCount;//header count
+    protected int mBottomCount;//bottom count
+
 
     /**
      * Call when bind view with the cursor
@@ -89,10 +91,10 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
      *
      * @param c       The cursor from which to get the data.
      * @param context The context
-     * This option is discouraged, as it results in Cursor queries
-     * being performed on the application's UI thread and thus can cause poor
-     * responsiveness or even Application Not Responding errors.  As an alternative,
-     * use {@link android.app.LoaderManager} with a {@link android.content.CursorLoader}.
+     *                This option is discouraged, as it results in Cursor queries
+     *                being performed on the application's UI thread and thus can cause poor
+     *                responsiveness or even Application Not Responding errors.  As an alternative,
+     *                use {@link android.app.LoaderManager} with a {@link android.content.CursorLoader}.
      */
     public BaseAbstractRecycleCursorAdapter(Context context, Cursor c) {
         this(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
@@ -114,6 +116,7 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;
+        Log.d("BaseAdapter","mDataValid == "+mDataValid);
         mContext = context;
         mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
         if ((flags & FLAG_REGISTER_CONTENT_OBSERVER) == FLAG_REGISTER_CONTENT_OBSERVER) {
@@ -129,7 +132,7 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
             if (mDataSetObserver != null) c.registerDataSetObserver(mDataSetObserver);
         }
 
-        setHasStableIds(true);//这个地方要注意一下，需要将表关联ID设置为true
+        setHasStableIds(true);
     }
 
     /**
@@ -147,7 +150,7 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
     @Override
     public int getItemCount() {
         if (mDataValid && mCursor != null) {
-            return mCursor.getCount();
+            return mHeaderCount + mCursor.getCount() + mBottomCount;
         } else {
             return 0;
         }
@@ -179,16 +182,69 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
         }
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        int dataItemCount = getContentItemCount();
+        if (mHeaderCount != 0 && position < mHeaderCount) {
+            return ITEM_TYPE.ITEM_TYPE_HEADER.ordinal();
+        } else if (mBottomCount != 0 && position >= (mHeaderCount + dataItemCount)) {
+            return ITEM_TYPE.ITEM_TYPE_BOTTOM.ordinal();
+        } else {
+            return ITEM_TYPE.ITEM_TYPE_CONTENT.ordinal();
+        }
+    }
+
+
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == ITEM_TYPE.ITEM_TYPE_HEADER.ordinal()) {
+            return onCreateHeaderView(parent);
+        } else if (viewType == ITEM_TYPE.ITEM_TYPE_CONTENT.ordinal()) {
+            return onCreateContentView(parent);
+        } else if (viewType == ITEM_TYPE.ITEM_TYPE_BOTTOM.ordinal()) {
+            return onCreateBottomView(parent);
+        }
+        return null;
+    }
+
+
     @Override
     public void onBindViewHolder(VH holder, int position) {
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        if (!mCursor.moveToPosition(position)) {
+        if ( (position < getItemCount() - mBottomCount)&& !mCursor.moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
         onBindViewHolder(holder, mCursor);
     }
+
+
+    public abstract VH onCreateHeaderView(ViewGroup parent);
+
+    public abstract VH onCreateContentView(ViewGroup parent);
+
+    public abstract VH onCreateBottomView(ViewGroup parent);
+
+    public abstract int getContentItemCount();
+
+    public void setHeaderCount(int headerCount) {
+        this.mHeaderCount = headerCount;
+    }
+
+    public void setBottomCount(int bottomCount) {
+        this.mBottomCount = bottomCount;
+    }
+
+    public boolean isHeaderView(int position) {
+        return mHeaderCount != 0 && position < mHeaderCount;
+    }
+
+    public boolean isBottomView(int position) {
+        return mBottomCount != 0 && position >= (mHeaderCount + getContentItemCount());
+    }
+
 
     /**
      * Change the underlying cursor to a new cursor. If there is an existing cursor it will be

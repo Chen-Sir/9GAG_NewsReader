@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.chen.jokesreader.App;
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.utils.ManagerTypeface;
+import com.chen.jokesreader.utils.typeface.ManagerTypeface;
 import com.chen.jokesreader.ui.customviews.TintOnStateImageView;
 
 /**

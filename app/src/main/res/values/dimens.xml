@@ -27,6 +27,8 @@
     <dimen name="nav_drawer_vertical_spacing_listing_divider_bottom">8dp</dimen>
     <dimen name="nav_drawer_subheader_height">48dp</dimen>
 
+    <dimen name="btn_size_in_dialog">36dp</dimen>
+
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="divider_height">1dp</dimen>
 

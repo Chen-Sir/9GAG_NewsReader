@@ -41,8 +41,5 @@ public class RequestManager {
     private static class RequestQueueHolder {
 
         private final static RequestQueue mRequestQueue = Volley.newRequestQueue(App.getAppContext());
-
     }
-
-
 }

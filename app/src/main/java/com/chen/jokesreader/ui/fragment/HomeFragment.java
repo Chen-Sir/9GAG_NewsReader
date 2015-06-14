@@ -84,7 +84,6 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_content_home, container, false);
-        Log.e(TAG,"onCreateView");
 
         //Set "hot" as the default category and would update logic later.
         mCategory = Category.valueOf(Category.hot.name());
@@ -150,7 +149,9 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
 
 
     public void onButtonPressed(int position, FeedsAdapter adapter) {
-        if (mListener != null) {
+        if (position == adapter.getItemCount() - 1) {
+            loadNext();
+        }else if (mListener != null) {
             mListener.onHomeFragmentInteraction(position, adapter);
         }
     }
@@ -197,7 +198,6 @@ public class HomeFragment extends DrawerItemBaseFragment implements SwipeRefresh
     private void loadNext() {
         refreshData(mPage);
     }
-
 
     private Response.Listener<Feed.FeedRequestData> responseListener() {
         //TODO:The logic of refreshing data should be update

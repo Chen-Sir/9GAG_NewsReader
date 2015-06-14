@@ -1,10 +1,10 @@
-package com.chen.jokesreader.utils;
+package com.chen.jokesreader.utils.typeface;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.SparseArray;
 
-import com.chen.jokesreader.factories.FactoryTypeface;
+import com.chen.jokesreader.utils.typeface.FactoryTypeface;
 
 
 /**

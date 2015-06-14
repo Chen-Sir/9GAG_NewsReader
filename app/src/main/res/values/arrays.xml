@@ -2,10 +2,10 @@
 <resources>
 
     <string-array name="nav_drawer_item_title_array">
-        <item>首页</item>
-        <item>探索</item>
-        <item>设置</item>
-        <item>关于</item>
+        <item>@string/title_home</item>
+        <item>@string/title_explore</item>
+        <item>@string/pref</item>
+        <item>@string/title_about</item>
     </string-array>
 
 </resources>

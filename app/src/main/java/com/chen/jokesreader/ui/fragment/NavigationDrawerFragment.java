@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.utils.ManagerTypeface;
+import com.chen.jokesreader.utils.typeface.ManagerTypeface;
 import com.chen.jokesreader.ui.adapter.NavDrawerListAdapter;
 import com.chen.jokesreader.ui.base.BaseFragment;
 import com.chen.jokesreader.utils.UtilsDevice;
@@ -52,7 +51,6 @@ public class NavigationDrawerFragment extends BaseFragment {
     private View mFragmentContainerView;
     private RecyclerView mRecyclerView;
 
-    private FrameLayout mFrameLayout_NavItemRow;
     private TextView mTextView_AccountDisplayName;
     private TextView mTextView_AccountEmail;
     private FrameLayout mFrameLayout_AccountView;
@@ -130,7 +128,6 @@ public class NavigationDrawerFragment extends BaseFragment {
         mTextView_AccountDisplayName = (TextView) mFragmentContainerView.findViewById(R.id.navigation_drawer_account_information_display_name);
         mTextView_AccountEmail = (TextView) mFragmentContainerView.findViewById(R.id.navigation_drawer_account_information_email);
         mFrameLayout_AccountView = (FrameLayout) mFragmentContainerView.findViewById(R.id.navigation_drawer_account_view);
-        mFrameLayout_NavItemRow = (FrameLayout) mFragmentContainerView.findViewById(R.id.nav_drawer_item_row);
 
         //set typeface
         mTextView_AccountDisplayName.setTypeface(ManagerTypeface.getTypeface(getActivity(), R.string.typeface_roboto_medium));
