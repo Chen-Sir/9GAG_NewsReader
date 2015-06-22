@@ -218,28 +218,6 @@ public class MainActivity extends BaseActivity implements HostingActivityInterfa
         ft.commit();
     }
 
-    /**
-     * Just to demonstrate how it is transaction backstack rather than fragment
-     * backSack. Not a method to be used normally.
-     */
-    @Override
-    public void addMultipleFragments(BaseFragment[] fragments) {
-        // Initialize a Fragment Transaction.
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        // Record all steps for the transaction.
-        for (int i = 0; i < fragments.length; i++) {
-            ft.setCustomAnimations(R.anim.fragment_slide_in_left, R.anim.fragment_slide_out_left, R.anim.fragment_slide_in_right, R.anim.fragment_slide_out_right);
-            ft.replace(R.id.main_activity_content_frame, fragments[i], fragments[i].getTagText());
-        }
-
-        // Add the transaction to backStack with tag of first added fragment
-        ft.addToBackStack(fragments[0].getTagText());
-
-        // Commit the transaction.
-        ft.commit();
-    }
-
     @Override
     public void onHomeFragmentInteraction(int position, FeedsAdapter adapter) {
         String imageUrl = adapter.getItem(position).images.large;

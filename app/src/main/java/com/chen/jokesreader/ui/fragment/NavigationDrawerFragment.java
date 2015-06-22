@@ -56,13 +56,10 @@ public class NavigationDrawerFragment extends BaseFragment {
     private FrameLayout mFrameLayout_AccountView;
 
     private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
-    private boolean mUserLearnedDrawer;
 
     /**
      * Navigation drawer items resources.
      */
-
     String[] mNavDrawerItemTitleArray;
 
 
@@ -85,7 +82,6 @@ public class NavigationDrawerFragment extends BaseFragment {
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
         }
 
         // Select either the default item (0) or the last selected item
@@ -151,7 +147,7 @@ public class NavigationDrawerFragment extends BaseFragment {
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                mToolbar,          /* nav drawer image to replace 'Up' caret */
+                mToolbar,
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {

@@ -16,7 +16,7 @@ import android.widget.Filterable;
 public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Filterable,
         CursorFilter.CursorFilterClient {
 
-    public static enum ITEM_TYPE {
+    public enum ITEM_TYPE {
         ITEM_TYPE_HEADER,
         ITEM_TYPE_CONTENT,
         ITEM_TYPE_BOTTOM
@@ -116,7 +116,6 @@ public abstract class BaseAbstractRecycleCursorAdapter<VH extends RecyclerView.V
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;
-        Log.d("BaseAdapter","mDataValid == "+mDataValid);
         mContext = context;
         mRowIDColumn = cursorPresent ? c.getColumnIndexOrThrow("_id") : -1;
         if ((flags & FLAG_REGISTER_CONTENT_OBSERVER) == FLAG_REGISTER_CONTENT_OBSERVER) {

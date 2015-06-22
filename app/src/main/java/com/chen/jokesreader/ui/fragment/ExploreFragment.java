@@ -1,23 +1,24 @@
 package com.chen.jokesreader.ui.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import com.chen.jokesreader.R;
-import com.chen.jokesreader.ui.base.BaseFragment;
+import com.chen.jokesreader.ui.base.DrawerItemBaseFragment;
 
 
-public class ExploreFragment extends BaseFragment {
+public class ExploreFragment extends DrawerItemBaseFragment {
 
     public static final String TAG = ExploreFragment.class.getSimpleName();
 
     private WebView mWebView;
+
+    private LinearLayout mLayout;
 
     /**
      * Use this factory method to create a new instance of
@@ -50,12 +51,13 @@ public class ExploreFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_explore,container,false);
+        View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
         if (mWebView != null) {
             mWebView.destroy();
         }
-        mWebView  = (WebView) view.findViewById(R.id.fragment_explore_webview);
+        mLayout = (LinearLayout) view.findViewById(R.id.fragment_explore_webview_container);
+        mWebView = (WebView) view.findViewById(R.id.fragment_explore_webview);
         mWebView.setWebViewClient(new MyWebViewClient());
         mWebView.getSettings().setBuiltInZoomControls(false);
         mWebView.getSettings().setSupportZoom(false);
@@ -90,27 +92,21 @@ public class ExploreFragment extends BaseFragment {
      * Called when the fragment is no longer in use. Destroys the internal state of the WebView.
      */
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         if (mWebView != null) {
+            mLayout.removeView(mWebView);
+            mWebView.removeAllViews();
             mWebView.destroy();
             mWebView = null;
         }
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     public class MyWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.endsWith(".mp4")) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(url), "video/*");
-
-                view.getContext().startActivity(intent);
-                return true;
-            } else {
-                return super.shouldOverrideUrlLoading(view, url);
-            }
+            return super.shouldOverrideUrlLoading(view, url);
         }
     }
 

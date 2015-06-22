@@ -23,6 +23,7 @@ public class NavDrawerListAdapter extends RecyclerView.Adapter<NavDrawerListAdap
     private String[] mItemTitles;
     private int[] mItemIcons;
 
+
     public NavDrawerListAdapter(String[] mItemTitles, int[] mItemIcons) {
         this.mItemTitles = mItemTitles;
         this.mItemIcons = mItemIcons;

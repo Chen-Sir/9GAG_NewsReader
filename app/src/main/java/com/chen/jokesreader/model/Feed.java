@@ -12,6 +12,7 @@ import java.util.HashMap;
  * Created by ChenSir on 2015/6/3 0003.
  */
 public class Feed extends BaseModel {
+
     private static final HashMap<String, Feed> FEED_CACHE = new HashMap<>();
 
     public String id;

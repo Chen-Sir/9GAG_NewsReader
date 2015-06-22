@@ -18,6 +18,4 @@ public interface HostingActivityInterface extends DrawerActivityInterface,Naviga
 
     public void addFragment(BaseFragment fragment, boolean withAnimation);
 
-    public void addMultipleFragments(BaseFragment fragments[]);
-
 }

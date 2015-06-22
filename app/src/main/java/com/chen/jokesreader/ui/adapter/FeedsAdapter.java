@@ -33,6 +33,7 @@ public class FeedsAdapter extends BaseAbstractRecycleCursorAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, Cursor cursor) {
+
         if (holder instanceof ContentViewHolder) {
             Feed mItem = Feed.fromCursor(cursor);
             if (((ContentViewHolder) holder).imageRequest != null) {
